@@ -1,0 +1,32 @@
+from pathlib import Path
+from datetime import datetime, timezone
+import csv
+
+root = Path(__file__).resolve().parents[1]
+outputs = root / "outputs"
+outputs.mkdir(parents=True, exist_ok=True)
+
+now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+dashboard = f"""# Academic Intelligence Update
+
+Last run: {now}
+
+## Today's status
+- Daily automation ran successfully.
+- Next step: replace this placeholder with real collection, classification, and prioritization logic.
+"""
+
+(outputs / "dashboard.md").write_text(dashboard, encoding="utf-8")
+
+csv_file = outputs / "spreadsheet_ready.csv"
+rows = [
+    ["DateCaptured", "Title", "Type", "Region", "Country", "City", "Organizer", "SourceType", "Deadline", "EventDate", "Link", "Importance", "CFP", "PhDRelevance", "Notes", "UniqueKey"],
+    [now.split()[0], "Placeholder opportunity", "Research Opportunity", "Global", "", "", "System", "Automation", "", "", "", "Medium", "No", "High", "Initial automated row", f"{now.split()[0]}_placeholder"]
+]
+
+with csv_file.open("w", newline="", encoding="utf-8-sig") as f:
+    writer = csv.writer(f)
+    writer.writerows(rows)
+
+print("Daily update completed.")
