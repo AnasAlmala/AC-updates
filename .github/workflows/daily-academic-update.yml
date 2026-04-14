@@ -24,10 +24,19 @@ jobs:
       - name: Run script
         run: python scripts/daily_update.py
 
-      - name: Commit and push outputs
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - - name: Commit and push outputs
+  run: |
+    git config user.name "github-actions[bot]"
+    git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+    git add outputs/
+
+    if git diff --staged --quiet; then
+      echo "No changes to commit"
+    else
+      git commit -m "Automated daily update"
+      git push origin main --force
+    fi
           
           git add outputs/
           
